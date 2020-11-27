@@ -22,7 +22,7 @@ export class CountryListComponent implements OnInit {
         this.countryList = results.list
       })
     if (!this.countryList.length) {
-      // this.getCountries()
+      this.getCountries()
     }
   }
 
@@ -39,7 +39,7 @@ export class CountryListComponent implements OnInit {
             code: r.alpha2Code.toLowerCase()
           }
         })
+        this.newsDB.saveList({id: 1, list: this.countryList})
       })
-    this.newsDB.saveList({id: 1, list: this.countryList})
   }
 }

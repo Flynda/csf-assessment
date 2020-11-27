@@ -9,7 +9,7 @@ export class NewsDatabase extends Dexie {
     // private newsArticles: Dexie.Table<NewsArticles, string>
     constructor() {
         super('newsDatabase')
-        this.version(2).stores({
+        this.version(1).stores({
             apikey: 'id, apiKey',
             CountryDB: 'id',
             // newsArticles: 'ts'
@@ -34,7 +34,7 @@ export class NewsDatabase extends Dexie {
     }
 
     saveList(save: CountryDB): Promise<any>{
-        return this.CountryDB.add(save)
+        return this.CountryDB.put(save)
     }
 
     getList(id: number): Promise<CountryDB> {
