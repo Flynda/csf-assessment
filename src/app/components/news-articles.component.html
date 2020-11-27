@@ -1,0 +1,31 @@
+<div class="row mt-3">
+    <div class="col d-flex justify-content-between">
+        <h2>News from X</h2>
+        <button type="button" class="btn btn-info" [routerLink]="['/countries']">Back</button>
+    </div>
+</div>
+<!-- <button (click)="getNewsArticles()">Get</button> -->
+<hr>
+
+<ul class="list-group mt-3" *ngFor="let item of newsArticles; let i=index">
+    <li class="list-group-item">
+        <img src="{{item.image}}">
+        <blockquote class="blockquote">
+            <p class="mb-0">{{item.title}}</p>
+            <footer class="blockquote-footer">
+                <cite title="Source Title">
+                    {{item.author}}
+                </cite>
+            </footer>
+        </blockquote>
+        {{item.description}}
+        <hr>
+        {{item.content}}
+        <hr>
+        <small>{{item.publishAt}}, {{item.sourceName}}</small>
+        <div class="col d-flex justify-content-between">
+            <a href="{{item.url}}" target="_blank">More info</a>
+            <button type="button" class="btn btn-primary">Save</button>
+        </div>
+    </li>
+</ul>

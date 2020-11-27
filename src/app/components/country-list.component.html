@@ -1,0 +1,16 @@
+<div class="row mt-3">
+    <div class="col d-flex justify-content-between">
+        <h2>Countries</h2>
+        <button type="button" class="btn btn-info" [routerLink]="['/api']">Settings</button>
+    </div>
+</div>
+<button (click)="getCountries()">Get</button>
+
+<ul class="list-group mt-3">
+    <a *ngFor="let c of countryList" [routerLink]="['/news', c.code]" class="list-group-item">
+        <div class="col d-flex justify-content-between">
+            {{c.name}}
+            <img src="{{c.flag}}">
+        </div>
+    </a>
+</ul>
