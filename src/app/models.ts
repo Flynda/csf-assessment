@@ -23,11 +23,13 @@ export interface NewsArticles {
     image: string
     publishAt: string
     content: string
+    timestamp: number
+    save: boolean
+    country: string
+    id?: number
 }
 
 export interface CacheArticles {
     article: NewsArticles
-    timestamp: Date
-    save: boolean
-    country: string
+    
 }

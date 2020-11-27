@@ -6,17 +6,17 @@ import { ApiKey, CountryDB, CountryList, NewsArticles } from './models';
 export class NewsDatabase extends Dexie {
     private apikey: Dexie.Table<ApiKey, number>
     private CountryDB: Dexie.Table<CountryDB, number>
-    // private newsArticles: Dexie.Table<NewsArticles, string>
+    private newsArticles: Dexie.Table<NewsArticles, string>
     constructor() {
         super('newsDatabase')
         this.version(1).stores({
             apikey: 'id, apiKey',
             CountryDB: 'id',
-            // newsArticles: 'ts'
+            newsArticles: '++id, country'
         })
         this.apikey = this.table('apikey')
         this.CountryDB = this.table('CountryDB')
-        // this.newsArticles = this.table('newsArticles')
+        this.newsArticles = this.table('newsArticles')
     }
     
     saveApiKey(key: ApiKey): Promise<any> {
@@ -40,4 +40,18 @@ export class NewsDatabase extends Dexie {
     getList(id: number): Promise<CountryDB> {
         return this.CountryDB.get(id)
     }
+
+    cacheArticles(article: NewsArticles): Promise<any> {
+        return this.newsArticles.put(article)
+    }
+
+    retrieveArticles(countryCode: string): Promise<NewsArticles[]>{
+        return this.newsArticles
+            .where('country').equals(countryCode).toArray()
+    }
+
+    deleteArticle(id: number): Promise<any>{
+        return this.newsArticles.where('id').equals(id).delete()
+    }
+
 }

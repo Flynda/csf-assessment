@@ -33,43 +33,67 @@ export class NewsArticlesComponent implements OnInit {
     // } 
   ]
   country: string
+  tempKey: string
 
   constructor(private activatedRoute: ActivatedRoute, private http: HttpClient, private newsDB: NewsDatabase) { }
 
   ngOnInit(): void {
+    this.country = this.activatedRoute.snapshot.params['country']
+    this.newsDB.retrieveArticles(this.country)
+    .then(r => {
+      this.newsArticles = r
+    })
+
     // this.getNewsArticles()
   }
 
   getNewsArticles() {
     const url:string = 'https://newsapi.org/v2/top-headlines'
-    this.country = this.activatedRoute.snapshot.params['country']
+    this.newsDB.getApiKey(1)
+      .then(result => {
+        this.tempKey = result.apiKey
+      })
     let params = (new HttpParams())
       .set('country', this.country)
       .set('pageSize', '30')
       .set('category', 'general')
     const headers = (new HttpHeaders())
-      .set('X-Api-Key', 'key_here')
-    console.info('headers: ', headers)
-    // this.http.get<any>(url, {headers: headers, params: params})
-    //   .toPromise()
-    //   .then(resp => {
-    //     const results = resp['articles'] as any[]
-    //     this.newsArticles = results.map(r => {
-    //       return {
-    //         sourceName: r['source']['name'],
-    //         author: r['author'],
-    //         title: r['title'],
-    //         description: r['description'],
-    //         url: r['url'],
-    //         image: r['urlToImage'],
-    //         publishAt: r['publishedAt'],
-    //         content: r['content']
-    //       }
-    //     })
-    //     console.info('newsArticles', this.newsArticles)
-    //   })
+      .set('X-Api-Key', this.tempKey)
+       
+    this.http.get<any>(url, {headers: headers, params: params})
+      .toPromise()
+      .then(resp => {
+        const results = resp['articles'] as any[]
+        this.newsArticles = results.map(r => {
+          return {
+            sourceName: r['source']['name'],
+            author: r['author'],
+            title: r['title'],
+            description: r['description'],
+            url: r['url'],
+            image: r['urlToImage'],
+            publishAt: r['publishedAt'],
+            content: r['content'],
+            timestamp: new Date().getTime(),
+            save: false,
+            country: this.country
+            
+          }
+          
+        })
+        this.newsArticles.map(r => {
+          this.newsDB.cacheArticles(r)
+        })
+        console.info('newsArticles', this.newsArticles)
+        
+      })
   }
 
-  saveArticle() {}
+  saveArticle(idx: number) {
+    this.newsArticles[idx].save = true
+    this.newsDB.cacheArticles(this.newsArticles[idx])
+  }
+
+
 
 }
