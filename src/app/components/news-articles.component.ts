@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NewsArticles } from '../models';
+import { NewsDatabase } from '../news.database';
 
 @Component({
   selector: 'app-news-articles',
@@ -33,7 +34,7 @@ export class NewsArticlesComponent implements OnInit {
   ]
   country: string
 
-  constructor(private activatedRoute: ActivatedRoute, private http: HttpClient) { }
+  constructor(private activatedRoute: ActivatedRoute, private http: HttpClient, private newsDB: NewsDatabase) { }
 
   ngOnInit(): void {
     // this.getNewsArticles()
@@ -45,6 +46,7 @@ export class NewsArticlesComponent implements OnInit {
     let params = (new HttpParams())
       .set('country', this.country)
       .set('pageSize', '30')
+      .set('category', 'general')
     const headers = (new HttpHeaders())
       .set('X-Api-Key', 'key_here')
     this.http.get<any>(url, {headers: headers, params: params})
@@ -66,5 +68,7 @@ export class NewsArticlesComponent implements OnInit {
         console.info('newsArticles', this.newsArticles)
       })
   }
+
+  saveArticle() {}
 
 }

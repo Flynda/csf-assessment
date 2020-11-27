@@ -24,3 +24,10 @@ export interface NewsArticles {
     publishAt: string
     content: string
 }
+
+export interface CacheArticles {
+    article: NewsArticles
+    timestamp: Date
+    save: boolean
+    country: string
+}
