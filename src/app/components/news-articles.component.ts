@@ -43,7 +43,20 @@ export class NewsArticlesComponent implements OnInit {
     .then(r => {
       this.newsArticles = r
     })
-
+    this.newsArticles.map(r => {
+      const currentTime = new Date().getTime()
+      if (!r.save) {
+        if ((currentTime - r.timestamp) > 30000) {
+          this.newsDB.deleteArticle(r.id)
+      }}
+    })
+    this.newsDB.retrieveArticles(this.country)
+    .then(r => {
+      this.newsArticles = r
+    })
+    if (!this.getNewsArticles.length) {
+      this.getNewsArticles()
+    }
     // this.getNewsArticles()
   }
 
