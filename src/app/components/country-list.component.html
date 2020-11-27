@@ -4,7 +4,7 @@
         <button type="button" class="btn btn-info" [routerLink]="['/api']">Settings</button>
     </div>
 </div>
-<button (click)="getCountries()">Get</button>
+<!-- <button (click)="getCountries()">Get</button> -->
 
 <ul class="list-group mt-3">
     <a *ngFor="let c of countryList" [routerLink]="['/news', c.code]" class="list-group-item">
