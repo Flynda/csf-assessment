@@ -85,7 +85,7 @@ export class NewsArticlesComponent implements OnInit {
               title: r['title'],
               description: r['description'],
               url: r['url'],
-              image: r['urlToImage'],
+              image: r['urlToImage'] || '/assets/no_image.png',
               publishAt: r['publishedAt'],
               content: r['content'],
               timestamp: new Date().getTime(),
