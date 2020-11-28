@@ -1,6 +1,6 @@
 <div class="row mt-3">
     <div class="col d-flex justify-content-between">
-        <h2>News from X</h2>
+        <h2>News from {{countryFullName}}</h2>
         <button type="button" class="btn btn-info" [routerLink]="['/countries']">Back</button>
     </div>
 </div>
@@ -25,7 +25,8 @@
         <small>{{item.publishAt}}, {{item.sourceName}}</small>
         <div class="col d-flex justify-content-between">
             <a href="{{item.url}}" target="_blank">More info</a>
-            <button type="button" class="btn btn-primary" (click)="saveArticle(i)">Save</button>
+            <button type="button" class="btn btn-primary" (click)="saveArticle(i)" *ngIf="(!item.save)">Save</button>
+            <button type="button" class="btn btn-danger" (click)="deleteArticle(item.id, i)" *ngIf="item.save">Delete</button>
         </div>
     </li>
 </ul>

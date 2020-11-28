@@ -28,8 +28,3 @@ export interface NewsArticles {
     country: string
     id?: number
 }
-
-export interface CacheArticles {
-    article: NewsArticles
-    
-}

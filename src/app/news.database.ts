@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import Dexie from 'dexie';
-import { ApiKey, CountryDB, CountryList, NewsArticles } from './models';
+import { ApiKey, CountryDB, NewsArticles } from './models';
 
 @Injectable()
 export class NewsDatabase extends Dexie {
@@ -27,7 +27,7 @@ export class NewsDatabase extends Dexie {
         return this.apikey.get(id)
     }
 
-    deleteApiKey(){
+    deleteApiKey(): Promise<any>{
         return this.apikey
             .where('id').equals(1)
             .delete()
