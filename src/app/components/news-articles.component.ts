@@ -35,6 +35,8 @@ export class NewsArticlesComponent implements OnInit {
   country: string
   countryFullName: string
   tempKey: string
+  timestampCheck: boolean = false
+  tempArray: NewsArticles[] = []
 
   constructor(private activatedRoute: ActivatedRoute, private http: HttpClient, private newsDB: NewsDatabase) { }
 
@@ -53,13 +55,20 @@ export class NewsArticlesComponent implements OnInit {
         if (!r.save) {
           if ((currentTime - r.timestamp) > 30000) {
             this.newsDB.deleteArticle(r.id)
+            this.timestampCheck = true
           } else
             this.newsArticles.push(r)
         } else
         this.newsArticles.push(r)
       })
-      if (!this.getNewsArticles.length) {
+      if (this.timestampCheck) {
+        this.tempArray = this.newsArticles
+        this.tempArray.reverse()
         this.getNewsArticles()
+        this.tempArray.map(r => {
+          this.newsArticles.unshift(r)
+        })
+        this.timestampCheck = false
       }
     })
   }
